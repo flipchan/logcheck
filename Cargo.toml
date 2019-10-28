@@ -1,0 +1,9 @@
+[package]
+name = "logcheck"
+version = "0.1.0"
+authors = ["flipchan <flipchan[at]riseup.net>"]
+edition = "2019"
+
+[dependencies]
+serde_json = "*"
+lmdb-zero = "*"
