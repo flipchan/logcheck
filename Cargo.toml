@@ -5,4 +5,3 @@ authors = ["flipchan <flipchan[at]riseup.net>"]
 
 [dependencies]
 serde_json = "*"
-lmdb-zero = "*"
