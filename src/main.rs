@@ -16,7 +16,7 @@ use std::collections::HashSet; // use it like python's set()
 fn grepip(lineoffile: &str) ->str {
   let ipv4find = Regex::new("").unwrap(); //ipv4 regex
   let findings = ipv4find.find(&lineoffile).unwrap();
-  println!("i have found", findings);
+  println!("i have found {}", findings);
   return "ip here";
 }
 
