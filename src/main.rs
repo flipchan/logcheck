@@ -8,7 +8,7 @@ use std::fs::File;
 use std::env;
 use regex::Regex;
 use std::collections::HashSet; // use it like python's set()
-
+use std::process::exit;
 
 //plan
 // call it like ./logcheck /file/path/to/access/log
@@ -27,6 +27,11 @@ fn main() {
   println!("logcheck by flipchan");
   let mut ipcounter = HashSet::new();
      let args: Vec<String> = env::args().collect();
+    if args.len() != 2 {
+                println!("please provide a file path");
+                exit(1);
+        }
+
     let openme = &args[1];
  // let openme = "file here";
   let file = File::open(openme).unwrap();
