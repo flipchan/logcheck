@@ -21,7 +21,7 @@ fn grepip(lineoffile: &str) ->str {
 }
 
 fn main() {
-  println!("logcheck by flipchan")
+  println!("logcheck by flipchan");
   let mut ipcounter = HashSet::new();
      let args: Vec<String> = env::args().collect();
     let openme = &args[1];
