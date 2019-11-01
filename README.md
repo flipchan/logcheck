@@ -11,6 +11,9 @@ $ cargo build
 
 ## run me 
 ```shell
+./logcheck /var/log/mysite_access.log.4
+logcheck by flipchan
+Amount of unique ips in the file is 43
 
 ```
 
