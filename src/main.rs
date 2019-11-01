@@ -37,5 +37,5 @@ fn main() {
    }
                                             }
 
-  println!("Amount of unique ips in the file is %d", ipcounter.len())
+  println!("Amount of unique ips in the file is {}", ipcounter.len());
   }
