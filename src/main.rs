@@ -28,8 +28,14 @@ fn main() {
  // let openme = "file here";
   let file = File::open(openme).unwrap();
   println!("file is open!");
+  println!("starting to count it");
  for line in BufReader::new(file).lines() { //stream parse the file
     //do things
-   if grepip(line) != "nope"{ //append to global uniq list }
+   let loot = grepip(line);
+   if loot != "nope"{ //append to global uniq list 
+   ipcounter.insert(loot.to_string());//insert ip address
+   }
                                             }
-}
+
+  println!("Amount of unique ips in the file is %d", ipcounter.len())
+  }
