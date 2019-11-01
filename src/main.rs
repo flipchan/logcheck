@@ -1,4 +1,4 @@
-
+/// wc -l && egrep is not fast
 extern crate serde_json;
 extern crate lmdb_zero as lmdb;
 extern crate regex;
@@ -12,13 +12,15 @@ use std::collections::HashSet; // use it like python's set()
 
 //plan
 // call it like ./logcheck /file/path/to/access/log
-//regex out the ips and unique sort and count it, stream parse the 
+//regex out the ips and unique sort and count it, stream parse the
 
-fn grepip(lineoffile: &str) ->str {
+fn grepip(lineoffile: &str) ->&str {
   let ipv4find = Regex::new("").unwrap(); //ipv4 regex
   let findings = ipv4find.find(&lineoffile).unwrap();
-  println!("i have found {}", findings);
-  return "ip here";
+  println!("i have found ");
+  println!("{}", findings.as_str());
+  let output = findings.as_str();
+  return output;// output
 }
 
 fn main() {
@@ -31,9 +33,11 @@ fn main() {
   println!("file is open!");
   println!("starting to count it");
  for line in BufReader::new(file).lines() { //stream parse the file
+
     //do things
-   let loot = grepip(line);
-   if loot != "nope"{ //append to global uniq list 
+   let mut linje = &line.unwrap();
+   let loot = grepip(linje);
+   if &loot != &"nope"{ //append to global uniq list
    ipcounter.insert(loot.to_string());//insert ip address
    }
                                             }
