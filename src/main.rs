@@ -1,6 +1,7 @@
 
 extern crate serde_json;
 extern crate lmdb_zero as lmdb;
+extern crate regex;
 
 use std::io::{BufReader,BufRead};
 use std::fs::File;
