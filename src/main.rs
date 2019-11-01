@@ -13,7 +13,7 @@ use std::collections::HashSet; // use it like python's set()
 // call it like ./logcheck /file/path/to/access/log
 //regex out the ips and unique sort and count it, stream parse the 
 
-fn grepip(lineoffile: &str) str{
+fn grepip(lineoffile: &str) ->str {
   let ipv4find = Regex::new("").unwrap(); //ipv4 regex
   let findings = ipv4find.find(&lineoffile).unwrap();
   println!("i have found", findings);
