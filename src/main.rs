@@ -1,6 +1,7 @@
-/// wc -l && egrep is not fast
+// grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' /var/log/hiawatha/blogaccess.log|uniq| wc -l does not scale
+
 extern crate serde_json;
-extern crate lmdb_zero as lmdb;
+//extern crate lmdb_zero as lmdb;
 extern crate regex;
 
 use std::io::{BufReader,BufRead};
@@ -10,42 +11,42 @@ use regex::Regex;
 use std::collections::HashSet; // use it like python's set()
 use std::process::exit;
 
+
 //plan
 // call it like ./logcheck /file/path/to/access/log
-//regex out the ips and unique sort and count it, stream parse the
+//regex out the ips and unique sort and count it, stream parse the 
 
-fn grepip(lineoffile: &str) ->&str {
-  let ipv4find = Regex::new("").unwrap(); //ipv4 regex
-  let findings = ipv4find.find(&lineoffile).unwrap();
-  println!("i have found ");
-  println!("{}", findings.as_str());
-  let output = findings.as_str();
-  return output;// output
-}
 
 fn main() {
   println!("logcheck by flipchan");
-  let mut ipcounter = HashSet::new();
-     let args: Vec<String> = env::args().collect();
-    if args.len() != 2 {
-                println!("please provide a file path");
-                exit(1);
-        }
-
+//  let mut ipcounter = HashSet::new();
+     let args: Vec<String> = env::args().collect();// if len == 1 // exit 
+   if args.len() != 2 {
+		println!("please provide a file path");
+		exit(1);
+	}
     let openme = &args[1];
  // let openme = "file here";
   let file = File::open(openme).unwrap();
-  println!("file is open!");
-  println!("starting to count it");
+    let re = Regex::new(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}").unwrap();
+    let mut books = HashSet::new();
+
+    books.insert("testing".into());
  for line in BufReader::new(file).lines() { //stream parse the file
+//
+    let linje = line.as_ref().unwrap();
+	let mut parts = linje.to_string();
+//	let line = line.as_str();
+//   let mut linje = &line.unwrap().as_str();
+    for caps in re.captures_iter(&parts.as_str()) {
+        let caps = caps;
+        books.insert(caps.get(0).unwrap().as_str().to_string());   // problem is here
+    }
 
-    //do things
-   let mut linje = &line.unwrap();
-   let loot = grepip(linje);
-   if &loot != &"nope"{ //append to global uniq list
-   ipcounter.insert(loot.to_string());//insert ip address
-   }
-                                            }
 
-  println!("Amount of unique ips in the file is {}", ipcounter.len());
+		    }
+
+    books.remove("testing");
+  println!("Amount of unique ips in the file is {}", books.len());
   }
+
