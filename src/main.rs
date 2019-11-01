@@ -1,7 +1,6 @@
 // grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' /var/log/hiawatha/blogaccess.log|uniq| wc -l does not scale
 
 extern crate serde_json;
-//extern crate lmdb_zero as lmdb;
 extern crate regex;
 
 use std::io::{BufReader,BufRead};
