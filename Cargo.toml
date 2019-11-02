@@ -4,5 +4,4 @@ version = "0.1.0"
 authors = ["flipchan <flipchan[at]riseup.net>"]
 
 [dependencies]
-serde_json = "*"
 regex = "*"
