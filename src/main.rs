@@ -8,11 +8,9 @@ use regex::Regex;
 use std::collections::HashSet; // use it like python's set()
 use std::process::exit;
 
-
 //plan
 // call it like ./logcheck /file/path/to/access/log
 //regex out the ips and unique sort and count it, stream parse the 
-
 
 fn main() {
   println!("logcheck by flipchan");
@@ -33,11 +31,7 @@ fn main() {
         let caps = caps;
         books.insert(caps.get(0).unwrap().as_str().to_string());   // problem is here
     }
-
-
 		    }
-
     books.remove("testing");
   println!("Amount of unique ips in the file is {}", books.len());
   }
-
