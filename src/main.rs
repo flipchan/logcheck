@@ -16,25 +16,19 @@ use std::process::exit;
 
 fn main() {
   println!("logcheck by flipchan");
-//  let mut ipcounter = HashSet::new();
-     let args: Vec<String> = env::args().collect();// if len == 1 // exit 
-   if args.len() != 2 {
+  let args: Vec<String> = env::args().collect();// if len == 1 // exit 
+  if args.len() != 2 {
 		println!("please provide a file path");
 		exit(1);
 	}
-    let openme = &args[1];
- // let openme = "file here";
+   let openme = &args[1];
   let file = File::open(openme).unwrap();
     let re = Regex::new(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}").unwrap();
     let mut books = HashSet::new();
-
     books.insert("testing".into());
  for line in BufReader::new(file).lines() { //stream parse the file
-//
     let linje = line.as_ref().unwrap();
-	let mut parts = linje.to_string();
-//	let line = line.as_str();
-//   let mut linje = &line.unwrap().as_str();
+    let mut parts = linje.to_string();
     for caps in re.captures_iter(&parts.as_str()) {
         let caps = caps;
         books.insert(caps.get(0).unwrap().as_str().to_string());   // problem is here
