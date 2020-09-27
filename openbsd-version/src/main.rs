@@ -1,5 +1,5 @@
 // use pledge
-use pledge::pledge_promises;
+use pledge::pledge;
 use chrono::{DateTime, Utc};
 use std::io::{BufReader,BufRead};
 use std::fs::File;
@@ -10,20 +10,53 @@ use std::process::exit;
 
 
 fn printsecure(strang: String, amount: usize) {
-  pledge_promises![Stdio]
-        .or_else(pledge::Error::ignore_platform)
-        .unwrap();
+
+	pledge("stdio", "stdio");
+//  pledge_promises![Stdio]
+//        .or_else(pledge::Error::ignore_platform)
+ //       .unwrap();
 	println!("{} {}", strang, amount);
 }
 
 // adding secure pledge
 fn output_print(amount: u32) {
-
-  pledge_promises![Stdio]
-        .or_else(pledge::Error::ignore_platform)
-        .unwrap();
+	pledge("stdio", "stdio");
+//  pledge_promises![Stdio]
+//        .or_else(pledge::Error::ignore_platform)
+//        .unwrap();
 	println!("Amount of visitors today: {}", amount);
 }
+
+
+fn read_n_count(filename: String) -> usize {
+
+	let now: DateTime<Utc> = Utc::now();
+	let dateprint = now.format("%Y-%m-%d");
+	let this = now.format("%d/%b/%Y");
+	let this = format!("{}", this);
+	let mut counter = 0;
+//	let promises = vec![Promise::Rpath, Promise::Flock];
+//	let execpromises = vec![Promise::Stdio, Promise::Tty];
+//let promises = vec![Promise::Stdio, Promise::Exec];
+//https://github.com/i80and/pledge-rs
+    pledge("rpath flock", None).unwrap();
+
+//  pledge_promises![rpath, flock] // i want to be able to read files(rpath) and open files(flock)
+  //      .or_else(pledge::Error::ignore_platform)
+//        .unwrap();
+
+	  let file = File::open(filename).unwrap();
+	 for line in BufReader::new(file).lines() { //stream parse the file
+	    let linje = line.as_ref().unwrap();
+	    let mut parts = linje.to_string();
+	     if parts.contains(&this) { 
+		counter += 1;
+	    				}
+
+						}
+
+	counter
+		}
 
 
 fn todaysstuff(filen: String) { //take path as string
@@ -35,7 +68,7 @@ fn todaysstuff(filen: String) { //take path as string
 	let mut counter = 0;
 	println!("Checking visitors for today: {}", sumtag);
 
-
+/*
 	  let file = File::open(filen).unwrap();
 	 for line in BufReader::new(file).lines() { //stream parse the file
 	    let linje = line.as_ref().unwrap();
@@ -45,6 +78,9 @@ fn todaysstuff(filen: String) { //take path as string
 //		amount.insert(caps.get(0).unwrap().as_str().to_string());   // insert the 
 	    }
 			    }
+
+*/
+	let securenew = read_n_count(filen);
 
 	output_print(counter);
 	//println!("Amount of visitors today: {}", counter);
