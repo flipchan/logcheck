@@ -22,6 +22,8 @@ Amount of unique ips in the file is 43
 
 ```
 
+Use the openbsd version for [Pledge](https://man.openbsd.org/pledge) support
+
 
 ## Special thanks to 
 @stephaneyfx !
