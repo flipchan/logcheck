@@ -11,7 +11,7 @@ pkg_add -iv rust
 
 ## install me
 ```shell
-$ cargo build
+$ cargo build --release
 ```
 
 ## run me 
