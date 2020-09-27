@@ -1,6 +1,6 @@
-// grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' /var/log/hiawatha/blogaccess.log|uniq| wc -l does not scale
+// use pledge
+use pledge::pledge_promises;
 use chrono::{DateTime, Utc};
-
 use std::io::{BufReader,BufRead};
 use std::fs::File;
 use std::env;
@@ -8,14 +8,25 @@ use regex::Regex;
 use std::collections::HashSet; // use it like python's set()
 use std::process::exit;
 
-//plan
-// call it like ./logcheck /file/path/to/access/log
-//regex out the ips and unique sort and count it, stream parse the 
+
+fn printsecure(strang: String, amount: usize) {
+  pledge_promises![Stdio]
+        .or_else(pledge::Error::ignore_platform)
+        .unwrap();
+	println!("{} {}", strang, amount);
+}
+
+// adding secure pledge
+fn output_print(amount: u32) {
+
+  pledge_promises![Stdio]
+        .or_else(pledge::Error::ignore_platform)
+        .unwrap();
+	println!("Amount of visitors today: {}", amount);
+}
+
 
 fn todaysstuff(filen: String) { //take path as string
-// different logs have different formats | openbsd httpd has domain.com ipaddress - - [03/Apr/2020:11:10:00 +0300] "GET / 
-//											this i need to find
-// ideally it should auto detect the log format based regex matches
 	let now: DateTime<Utc> = Utc::now();
 	let dateprint = now.format("%Y-%m-%d");
 	let sumtag = now.format("%a %b %e %Y");
@@ -23,6 +34,7 @@ fn todaysstuff(filen: String) { //take path as string
 	let this = format!("{}", this);
 	let mut counter = 0;
 	println!("Checking visitors for today: {}", sumtag);
+
 
 	  let file = File::open(filen).unwrap();
 	 for line in BufReader::new(file).lines() { //stream parse the file
@@ -34,7 +46,8 @@ fn todaysstuff(filen: String) { //take path as string
 	    }
 			    }
 
-	println!("Amount of visitors today: {}", counter);
+	output_print(counter);
+	//println!("Amount of visitors today: {}", counter);
 
 }
 
@@ -60,5 +73,7 @@ fn main() {
     }
 		    }
     books.remove("testing");
-  println!("Amount of unique ips in the file is {}", books.len());
+//  println!("Amount of unique ips in the file is {}", books.len());
+	printsecure("Amount of unique ips in the file is".to_string(), books.len())
+
   }
